@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Task Management Frontend
 
 Modern React application implementing secure JWT authentication, role-based UI components, and comprehensive task management features. Built with Vite for optimal performance and developer experience.
@@ -279,3 +280,7 @@ npm run preview
 ## 📄 License
 
 MIT License - See LICENSE file for details.
+=======
+# task-management-frontend
+ team colaboration
+>>>>>>> d8a9354b7b7bbbbdfdacad4cdaaff5112ae8f59d
