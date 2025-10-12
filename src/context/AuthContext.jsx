@@ -3,18 +3,15 @@ import api from '../services/api';
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
+const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     checkAuthStatus();
@@ -23,21 +20,16 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-
-      if (!token || !refreshToken) {
+      if (!token) {
         setLoading(false);
         return;
       }
 
-      setAccessToken(token);
       const response = await api.get('/auth/me');
       setUser(response.data.user);
     } catch (error) {
-      console.error('Auth check failed:', error);
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      setAccessToken(null);
     } finally {
       setLoading(false);
     }
@@ -48,14 +40,10 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/auth/login', { email, password });
       const { accessToken, refreshToken, user } = response.data;
 
-      // Store refresh token in localStorage (XSS risk mitigation in README)
-      localStorage.setItem('refreshToken', refreshToken);
-      
-      // Store access token in memory (component state)
-      setAccessToken(accessToken);
       localStorage.setItem('accessToken', accessToken);
-      
+      localStorage.setItem('refreshToken', refreshToken);
       setUser(user);
+      
       return { success: true };
     } catch (error) {
       return { 
@@ -88,23 +76,15 @@ export const AuthProvider = ({ children }) => {
     } finally {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      setAccessToken(null);
       setUser(null);
     }
   };
 
-  const value = {
-    user,
-    loading,
-    accessToken,
-    login,
-    register,
-    logout
-  };
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export { useAuth, AuthProvider };

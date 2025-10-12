@@ -9,20 +9,14 @@ import './App.css';
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-  
+  if (loading) return <div className="loading">Loading...</div>;
   return user ? children : <Navigate to="/login" />;
 };
 
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-  
+  if (loading) return <div className="loading">Loading...</div>;
   return user ? <Navigate to="/dashboard" /> : children;
 };
 
@@ -35,30 +29,9 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" />} />
-              <Route 
-                path="/login" 
-                element={
-                  <PublicRoute>
-                    <Login />
-                  </PublicRoute>
-                } 
-              />
-              <Route 
-                path="/register" 
-                element={
-                  <PublicRoute>
-                    <Register />
-                  </PublicRoute>
-                } 
-              />
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+              <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             </Routes>
           </main>
         </div>
