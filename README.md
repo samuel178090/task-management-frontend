@@ -1,6 +1,12 @@
 <<<<<<< HEAD
 # Task Management Frontend
 
+
+(URL= https://taskassig.netlify.app/)
+ Admin:
+admin@example.com password: Admin123456 User: josephsammy1994@gmai.com password: Mayowa2211. 
+
+
 Modern React application implementing secure JWT authentication, role-based UI components, and comprehensive task management features. Built with Vite for optimal performance and developer experience.
 
 ## 🏗️ Architecture Overview
@@ -192,12 +198,12 @@ const handleLogin = async (credentials) => {
 ### Test Accounts
 ```
 Admin Account:
-  Email: admin@example.com
-  Password: Admin123!
+  Admin:  admin@example.com
+   password: Admin123456
   
 User Account:
-  Email: user@example.com
-  Password: User123!
+ User: josephsammy1994@gmai.com 
+ password: Mayowa2211.
 ```
 
 ### Feature Testing
